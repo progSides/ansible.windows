@@ -42,6 +42,10 @@ options:
     description:
       - When C(state) is C(workgroup), the name of the workgroup that the Windows host should be in.
     type: str
+  force_add_computer:
+    description:
+      - When True, the user confirmation prompt is suppressed.  Useful for hosts that do not require netBIOS compatibility and would like to use hostnames >15 characters.
+    type: bool
 seealso:
 - module: ansible.windows.win_domain
 - module: ansible.windows.win_domain_controller
@@ -69,6 +73,7 @@ EXAMPLES = r'''
 # and will use the passed credentials to join domain if necessary.
 # Ansible connection should use local credentials if possible.
 # If a reboot is required, the second task will trigger one and wait until the host is available.
+# If the hostname is longer than 15 characters, it will still be joined to the domain, but without netBIOS compatibility.
 - hosts: winclient
   gather_facts: false
   tasks:
@@ -79,6 +84,7 @@ EXAMPLES = r'''
       domain_admin_password: password123!
       domain_ou_path: "OU=Windows,OU=Servers,DC=ansible,DC=vagrant"
       state: domain
+      force_add_computer: true
     register: domain_state
 
   - ansible.windows.win_reboot:
