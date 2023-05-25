@@ -1,0 +1,3 @@
+    changes:
+      bugfixes:
+      - win_domain_membership .. added ability to skip netBIOS >15 character hostname limit when joining a domain with the 'force_add_computer' parameter (defaults to False which maintains backward compatibility)
